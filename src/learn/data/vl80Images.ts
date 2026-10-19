@@ -1,0 +1,26 @@
+// convert_learn.py tomonidan yaratilgan — qo'lda o'zgartirmang
+/* eslint-disable */
+export const VL80_IMAGES: Record<string, number> = {
+  "25kv": require('../../../assets/learn/vl80/25kv.png'),
+  "about_bsa1": require('../../../assets/learn/vl80/about_bsa1.png'),
+  "about_bsa2": require('../../../assets/learn/vl80/about_bsa2.png'),
+  "about_pan1": require('../../../assets/learn/vl80/about_pan1.png'),
+  "about_pan2": require('../../../assets/learn/vl80/about_pan2.png'),
+  "about_pan3": require('../../../assets/learn/vl80/about_pan3.png'),
+  "about_pan4": require('../../../assets/learn/vl80/about_pan4.png'),
+  "about_pan6": require('../../../assets/learn/vl80/about_pan6.png'),
+  "about_pan7": require('../../../assets/learn/vl80/about_pan7.png'),
+  "about_pan8": require('../../../assets/learn/vl80/about_pan8.png'),
+  "about_pan9": require('../../../assets/learn/vl80/about_pan9.png'),
+  "about_rsh": require('../../../assets/learn/vl80/about_rsh.png'),
+  "cy": require('../../../assets/learn/vl80/cy.png'),
+  "cy_vsp": require('../../../assets/learn/vl80/cy_vsp.png'),
+  "fr": require('../../../assets/learn/vl80/fr.png'),
+  "gv": require('../../../assets/learn/vl80/gv.png'),
+  "nabor": require('../../../assets/learn/vl80/nabor.png'),
+  "op": require('../../../assets/learn/vl80/op.png'),
+  "pantograf": require('../../../assets/learn/vl80/pantograf.png'),
+  "signal": require('../../../assets/learn/vl80/signal.png'),
+  "silovaya": require('../../../assets/learn/vl80/silovaya.png'),
+  "vsp": require('../../../assets/learn/vl80/vsp.png'),
+};

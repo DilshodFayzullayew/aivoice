@@ -1,93 +1,110 @@
-# aivoice
+# AI assist — mobil ilova (iOS / Android)
 
+Lokomotiv mashinistlari uchun ovozli yordamchi. Ilovada mashinist savolni ovoz bilan beradi va texnik bilimlar bazasidan javob oladi (matn va ovoz). Shuningdek, nosozlik haqida xabar yuboradi va o'quv materiallarini (testlar, ВЛ80с, КЛУБ-У, ПТЭ) o'qiydi.
 
+Texnologiyalar: **Expo SDK 57** (React Native 0.86, React 19, TypeScript). Build **EAS Build** orqali bulutda qilinadi, shuning uchun iOS build uchun Mac shart emas.
 
-## Getting started
+Backend (server) tayyor va ishlab turibdi, unga tegish kerak emas:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+| | |
+|---|---|
+| API | `https://83-69-136-154.sslip.io` |
+| Maxfiylik siyosati (do'konlar uchun) | `https://83-69-136-154.sslip.io/privacy.html` |
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+---
 
-## Add your files
+## 1. Lokal ishga tushirish
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+Talablar: Node.js 20+, telefonda **Expo Go** (SDK 57).
+
+```bash
+npm install
+cp .env.example .env        # Windows: copy .env.example .env
+npx expo start -c
+```
+
+QR kodni Expo Go bilan skanerlang. Kirish uchun login va parolni loyiha egasidan oling.
+
+Tip tekshiruvi: `npx tsc --noEmit`
+
+## 2. Bir martalik sozlash
+
+```bash
+npm install -g eas-cli
+eas login                   # tashkilotning Expo akkaunti
+eas init                    # app.json ga yangi projectId yoziladi — shu o'zgarishni commit qiling
+```
+
+Ilova identifikatorlari (`app.json`). Do'konga birinchi marta chiqqandan keyin ularni **o'zgartirib bo'lmaydi**. Kerak bo'lsa, birinchi build'dan **oldin** o'zgartiring:
+
+- iOS: `com.temiryollari.mashinist` (`ios.bundleIdentifier`)
+- Android: `com.temiryollari.mashinist` (`android.package`)
+
+## 3. Build
+
+Server manzili `eas.json` dagi `EXPO_PUBLIC_API_URL` orqali build ichiga yoziladi (`preview` va `production` profillari).
+
+| Maqsad | Buyruq | Natija |
+|---|---|---|
+| Sinov uchun APK (telefonga to'g'ridan-to'g'ri o'rnatiladi) | `eas build -p android --profile preview` | `.apk` |
+| Google Play | `eas build -p android --profile production` | `.aab` |
+| App Store / TestFlight | `eas build -p ios --profile production` | `.ipa` |
+
+- **Versiya raqamlari:** `production` build'larda `versionCode` va `buildNumber` avtomatik oshadi (`appVersionSource: remote`). Foydalanuvchiga ko'rinadigan versiyani (`1.0.0`) `app.json` → `expo.version` da qo'lda oshiring.
+- **Android imzosi:** birinchi build'da EAS kalit (keystore) yaratishni taklif qiladi, **Yes** deng. Kalit EAS'da saqlanadi. Uni yo'qotmang: usiz Play'dagi ilovani yangilab bo'lmaydi.
+- **iOS sertifikatlari:** EAS Apple Developer akkauntiga kirib, sertifikat va provisioning profile'ni o'zi yaratadi.
+
+## 4. Do'konlarga yuklash
+
+```bash
+eas submit -p android --profile production   # Play Console → Internal testing
+eas submit -p ios --profile production       # App Store Connect → TestFlight
+```
+
+- **Google Play:** birinchi `.aab` ni Play Console'ga **qo'lda** yuklash kerak (Play talabi). Keyingilari `eas submit` bilan yuklanadi. Buning uchun Google Cloud'da service account JSON kerak: https://docs.expo.dev/submit/android/
+- **App Store:** `eas submit` Apple ID bilan kiradi va App Store Connect'da ilovani o'zi yaratadi.
+
+## 5. Do'kon sahifasi uchun ma'lumotlar
+
+| Maydon | Qiymat |
+|---|---|
+| Nomi | AI assist |
+| Kategoriya | Business (yoki Education) |
+| Maxfiylik siyosati URL | https://83-69-136-154.sslip.io/privacy.html |
+| Narx | Bepul, reklamasiz, ichki xaridsiz |
+| Yosh chegarasi | 4+ / Everyone |
+| Shifrlash (Apple export compliance) | Faqat standart HTTPS. `app.json` da `ITSAppUsesNonExemptEncryption: false` qo'yilgan |
+
+**Data safety (Play) / App Privacy (Apple):** quyidagi ma'lumotlar yig'iladi. Ular faqat ilova funksiyasi uchun ishlatiladi, kuzatish va reklama yo'q, shifrlangan holda uzatiladi:
+
+- ism va foydalanuvchi ID'si;
+- ovoz yozuvlari;
+- rasm va videolar (nosozlik xabarlari);
+- savollar tarixi (ilova ichidagi kontent).
+
+Qisqa tavsif:
+> Lokomotiv mashinistlari uchun ovozli yordamchi: nosozlik bo'yicha savolga texnik bazadan darhol javob, nosozlik xabarlari va o'quv materiallari.
+
+### Muhim: ilova faqat login bilan ishlaydi
+
+Ro'yxatdan o'tish yo'q, hisoblarni depo administratori yaratadi. Shuning uchun:
+
+1. **Test hisob.** Apple va Google tekshiruvchilariga test hisob kerak. Loyiha egasi admin panelda (`https://83-69-136-154.sslip.io` → Foydalanuvchilar) alohida test foydalanuvchi yaratib beradi. Login va parolni App Store Connect → *App Review Information → Sign-in required* va Play Console → *App access* bo'limiga yozing.
+2. **Tekshiruvchi uchun izoh** (App Review Notes):
+   > Internal app for locomotive drivers of Uzbekistan Railways. Accounts are created by the depot administrator; there is no public sign-up. Use the demo account above. After login the app asks to set a 4-digit PIN (any digits).
+3. **Apple talabi.** Agar Apple ilovani "faqat ichki xodimlar uchun" deb rad etsa, **Unlisted App Distribution** so'rovini yuboring (ilova faqat havola orqali ochiladi): https://developer.apple.com/contact/request/unlisted-app/
+
+## 6. Loyiha tuzilishi
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/team1955829/aivoice.git
-git branch -M main
-git push -uf origin main
+App.tsx                 tab navigatsiya, PIN qulfi
+src/api/voiceApi.ts     backend bilan aloqa (EXPO_PUBLIC_API_URL)
+src/screens/            Ovoz, Buzilish, O'rganish, Profil, Login, PIN
+src/learn/              o'quv bo'limi (testlar, ВЛ80с, КЛУБ-У, taqdimot, hujjatlar)
+src/i18n.tsx, i18n.ru.ts  interfeys tili: o'zbekcha (kalit) / ruscha
+src/theme.tsx           yorug' / qorong'i mavzu
+assets/                 ikonka, splash, o'quv rasmlari
 ```
 
-## Integrate with your tools
-
-* [Set up project integrations](https://gitlab.com/team1955829/aivoice/-/settings/integrations)
-
-## Collaborate with your team
-
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- **Server manzilini almashtirish** (masalan, domen olinganda): `eas.json` dagi `EXPO_PUBLIC_API_URL` ni (ikkala profilda) yangilang va qayta build qiling.
+- **Interfeys matnlari:** o'zbekcha matn kalit hisoblanadi, ruscha tarjimasi `src/i18n.ru.ts` da. Kontent (savol-javoblar, kitoblar, testlar) tarjima qilinmaydi.
