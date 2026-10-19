@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Constants from 'expo-constants';
 import { 
   StyleSheet, 
   View, 
@@ -23,6 +24,9 @@ import { useScreenContentStyle } from '../layout';
 import { useAuth } from '../auth';
 import { Palette, useStyles, useTheme } from '../theme';
 import { useI18n } from '../i18n';
+
+// Ilova versiyasi app.json -> expo.version dan olinadi (qo'lda yozilmaydi)
+const APP_VERSION = Constants.expoConfig?.version ?? '';
 
 interface Props {
   onNavigate: (screen: any) => void;
@@ -154,7 +158,7 @@ export default function ProfilScreen({ onNavigate }: Props) {
       </TouchableOpacity>
 
       <Text style={styles.versionFooter}>
-        {t('O‘zbekiston Temir Yo‘llari')} • {t('Axborot tizimi')} v4.8.2
+        {t('O‘zbekiston Temir Yo‘llari')} • {t('Axborot tizimi')} v{APP_VERSION}
       </Text>
     </ScrollView>
   );

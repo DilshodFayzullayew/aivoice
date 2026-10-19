@@ -94,7 +94,27 @@ Ro'yxatdan o'tish yo'q, hisoblarni depo administratori yaratadi. Shuning uchun:
    > Internal app for locomotive drivers of Uzbekistan Railways. Accounts are created by the depot administrator; there is no public sign-up. Use the demo account above. After login the app asks to set a 4-digit PIN (any digits).
 3. **Apple talabi.** Agar Apple ilovani "faqat ichki xodimlar uchun" deb rad etsa, **Unlisted App Distribution** so'rovini yuboring (ilova faqat havola orqali ochiladi): https://developer.apple.com/contact/request/unlisted-app/
 
-## 6. Loyiha tuzilishi
+## 6. Versiyalash
+
+Versiya ikki joyda bir xil turadi: `app.json` (`expo.version`) va `package.json`. Har bir versiyada nima o'zgargani [CHANGELOG.md](CHANGELOG.md) da yoziladi. Har bir versiya git'da `vX.Y.Z` tag bilan belgilanadi.
+
+O'zgarish kiritib push qilish tartibi:
+
+```bash
+npm run version:patch        # yoki version:minor / version:major — app.json va package.json birga oshadi
+# CHANGELOG.md ga yangi versiya bo'limini yozing
+git commit -am "v1.0.1: qisqa izoh"
+git tag v1.0.1
+git push --follow-tags
+```
+
+- **patch:** xato tuzatish.
+- **minor:** yangi funksiya.
+- **major:** katta o'zgarish.
+
+Do'kondagi build raqamlari (`versionCode` / `buildNumber`) qo'lda o'zgartirilmaydi, ularni EAS o'zi oshiradi. Do'konga yangi build yuklashdan oldin versiya albatta oshirilgan bo'lishi kerak.
+
+## 7. Loyiha tuzilishi
 
 ```
 App.tsx                 tab navigatsiya, PIN qulfi
