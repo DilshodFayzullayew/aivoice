@@ -66,6 +66,16 @@ eas submit -p ios --profile production       # App Store Connect → TestFlight
 
 ## 5. Do'kon sahifasi uchun ma'lumotlar
 
+Tayyor rasmlar `store/` papkasida:
+
+| Fayl | Qayerga yuklanadi |
+|---|---|
+| `store/app-store-icon-1024.png` | App Store Connect → App Icon (1024×1024, alfa-kanalsiz) |
+| `store/play-store-icon-512.png` | Play Console → Store listing → App icon (512×512) |
+| `store/play-feature-graphic-1024x500.png` | Play Console → Store listing → Feature graphic (1024×500) |
+
+Ekran rasmlarini (screenshot) telefondan olasiz: Ovoz, O'rganish, Buzilish va Profil ekranlari. Play uchun kamida 2 ta, App Store uchun 6.7" va 6.5" iPhone o'lchamida 3–10 ta.
+
 | Maydon | Qiymat |
 |---|---|
 | Nomi | AI assist |

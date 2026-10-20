@@ -8,6 +8,17 @@ Versiyalar [Semantic Versioning](https://semver.org/) bo'yicha yuritiladi: `MAJO
 
 Bu versiya foydalanuvchiga do'konda va Profil ekranida ko'rinadi (`app.json` → `expo.version`). Do'kondagi build raqamlarini (Android `versionCode`, iOS `buildNumber`) EAS har production build'da o'zi oshiradi.
 
+## [1.0.1] — 2026-10-20
+
+### Tuzatildi
+- Ilova ikonkasi (`assets/icon.png`) alfa-kanalsiz (RGB) qilindi. App Store 1024×1024 ikonkada alfa-kanalni qabul qilmaydi. Logo aniqroq chiqadi.
+
+### Qo'shildi
+- `store/` papkasi, do'kon sahifasi uchun:
+  - `app-store-icon-1024.png` — App Store ikonkasi (1024×1024, RGB);
+  - `play-store-icon-512.png` — Google Play ikonkasi (512×512);
+  - `play-feature-graphic-1024x500.png` — Google Play banneri (Feature graphic).
+
 ## [1.0.0] — 2026-10-19
 
 Birinchi versiya: do'konlarga chiqarish uchun tayyor.
