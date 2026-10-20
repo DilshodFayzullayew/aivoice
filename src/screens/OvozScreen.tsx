@@ -35,7 +35,7 @@ import {
   Sun,
   TrainFront,
 } from 'lucide-react-native';
-import { useScreenContentStyle } from '../layout';
+import { CONTENT_MAX_WIDTH, useScreenContentStyle } from '../layout';
 import { ApiError, QueryResult, checkHealth, fetchAiAudio, fetchKbAudio, textQuery, voiceQuery } from '../api/voiceApi';
 import { HistoryItem, clearHistory, groupByDay, loadRelevantHistory, removeHistoryItem, saveHistory, timeLabel } from '../storage/voiceHistory';
 import { useAuth } from '../auth';
@@ -452,7 +452,9 @@ export default function OvozScreen({ onNavigate }: Props) {
   const online = serverOnline === true;
 
   return (
-    <ScrollView ref={scrollRef} style={styles.container} contentContainerStyle={[styles.contentContainer, contentStyle]} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
+      {/* Sarlavha qotirilgan — kontent ostida aylanadi */}
+      <View style={styles.fixedHead}>
       {/* Yuqori panel */}
       <View style={styles.topBar}>
         <View style={styles.trainIcon}>
@@ -477,6 +479,8 @@ export default function OvozScreen({ onNavigate }: Props) {
           <View style={[styles.avatarDot, { backgroundColor: online ? '#22c55e' : serverOnline === false ? '#ef4444' : T.faint }]} />
         </TouchableOpacity>
       </View>
+      </View>
+      <ScrollView ref={scrollRef} style={styles.scroll} contentContainerStyle={[styles.contentContainer, contentStyle]} showsVerticalScrollIndicator={false}>
 
       {/* Mikrofon kartasi */}
       <View style={styles.micCard}>
@@ -637,7 +641,8 @@ export default function OvozScreen({ onNavigate }: Props) {
           })}
         </View>
       ))}
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -647,7 +652,9 @@ const WAVE = [0.35, 0.6, 0.85, 0.5, 1, 0.7, 0.9, 0.45, 0.65, 0.3];
 const makeStyles = (T: Palette) =>
   StyleSheet.create({
     container: { flex: 1, backgroundColor: T.bg },
-    contentContainer: { paddingHorizontal: 16, paddingTop: 8 },
+    scroll: { flex: 1 },
+    contentContainer: { paddingHorizontal: 16 },
+    fixedHead: { width: '100%', maxWidth: CONTENT_MAX_WIDTH, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 8, backgroundColor: T.bg },
 
     // Yuqori panel
     topBar: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8, marginBottom: 12 },

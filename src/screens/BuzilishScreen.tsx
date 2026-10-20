@@ -43,7 +43,7 @@ import {
   TriangleAlert,
   X,
 } from 'lucide-react-native';
-import { useScreenContentStyle } from '../layout';
+import { CONTENT_MAX_WIDTH, useScreenContentStyle } from '../layout';
 import {
   ApiError,
   FaultReport,
@@ -342,12 +342,9 @@ export default function BuzilishScreen({ onNavigate }: Props) {
   const previewPlaying = playerStatus.playing;
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={[styles.content, contentStyle]}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
-    >
+    <View style={styles.container}>
+      {/* Sarlavha qotirilgan — kontent ostida aylanadi */}
+      <View style={styles.fixedHead}>
       {/* Sarlavha */}
       <View style={styles.header}>
         <View style={styles.headerBadge}>
@@ -356,6 +353,13 @@ export default function BuzilishScreen({ onNavigate }: Props) {
         </View>
         <Text style={styles.headerDesc}>{t("Nosozlikni ovoz bilan aytib bering, rasm yoki video biriktiring — dispetcherga yuboriladi")}</Text>
       </View>
+      </View>
+      <ScrollView
+      style={styles.scroll}
+      contentContainerStyle={[styles.content, contentStyle]}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
 
       {/* Ovoz yozish tugmasi */}
       <View style={styles.orbArea}>
@@ -579,14 +583,17 @@ export default function BuzilishScreen({ onNavigate }: Props) {
           </View>
         </Pressable>
       </Modal>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const makeStyles = (T: Palette) =>
   StyleSheet.create({
   container: { flex: 1, backgroundColor: T.bg },
-  content: { padding: 16 },
+  scroll: { flex: 1 },
+  content: { paddingHorizontal: 16, paddingBottom: 16 },
+  fixedHead: { width: '100%', maxWidth: CONTENT_MAX_WIDTH, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 16, paddingBottom: 6, backgroundColor: T.bg },
   header: { alignItems: 'center', marginBottom: 6 },
   headerBadge: {
     flexDirection: 'row',

@@ -8,6 +8,11 @@ Versiyalar [Semantic Versioning](https://semver.org/) bo'yicha yuritiladi: `MAJO
 
 Bu versiya foydalanuvchiga do'konda va Profil ekranida ko'rinadi (`app.json` → `expo.version`). Do'kondagi build raqamlarini (Android `versionCode`, iOS `buildNumber`) EAS har production build'da o'zi oshiradi.
 
+## [1.0.2] — 2026-10-20
+
+### Tuzatildi
+- Sarlavha endi sahifa bilan birga aylanib ketmaydi, ekran yuqorisida qotib turadi. Tuzatilgan ekranlar: Ovoz, Umumiy, Buzilish va O'rganish bosh sahifasi. Ilgari sarlavha `ScrollView` ichida edi. Endi u alohida, kontent esa uning ostida aylanadi. O'rganish ichki sahifalarida sarlavha avvaldan qotirilgan edi.
+
 ## [1.0.1] — 2026-10-20
 
 ### Tuzatildi

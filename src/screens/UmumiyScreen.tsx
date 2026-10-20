@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { Bell, Train } from 'lucide-react-native';
-import { useScreenContentStyle } from '../layout';
+import { CONTENT_MAX_WIDTH, useScreenContentStyle } from '../layout';
 import { useAuth } from '../auth';
 import { Palette, useStyles, useTheme } from '../theme';
 import { useI18n } from '../i18n';
@@ -32,7 +32,9 @@ export default function UmumiyScreen({ onNavigate }: Props) {
   const logoH = Math.round(Math.min(200, Math.max(140, width * 0.42)));
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={[styles.contentContainer, contentStyle]} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
+      {/* Sarlavha qotirilgan — kontent ostida aylanadi */}
+      <View style={styles.fixedHead}>
       {/* Sarlavha */}
       <View style={styles.header}>
         <View style={styles.brandRow}>
@@ -54,6 +56,8 @@ export default function UmumiyScreen({ onNavigate }: Props) {
           </TouchableOpacity>
         </View>
       </View>
+      </View>
+      <ScrollView style={styles.scroll} contentContainerStyle={[styles.contentContainer, contentStyle]} showsVerticalScrollIndicator={false}>
 
       {/* Salomlashish kartasi */}
       <View style={styles.heroCard}>
@@ -85,14 +89,17 @@ export default function UmumiyScreen({ onNavigate }: Props) {
         <Text style={styles.logoTitle}>{t("O‘zbekiston Temir Yo‘llari")}</Text>
         <Text style={styles.logoSub}>AI assist</Text>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const makeStyles = (T: Palette) =>
   StyleSheet.create({
     container: { flex: 1, backgroundColor: T.bg },
-    contentContainer: { padding: 16 },
+    scroll: { flex: 1 },
+    contentContainer: { paddingHorizontal: 16, paddingBottom: 16 },
+    fixedHead: { width: '100%', maxWidth: CONTENT_MAX_WIDTH, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 16, backgroundColor: T.bg },
     header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 },
     brandRow: { flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1, marginRight: 8 },
     headerLogo: { width: 30, height: 36 },

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BookOpen, ChevronRight, ClipboardCheck, Gauge, LucideIcon, Presentation, Zap } from 'lucide-react-native';
-import { useScreenContentStyle } from '../layout';
+import { CONTENT_MAX_WIDTH, useScreenContentStyle } from '../layout';
 import { setBackInterceptor } from '../backInterceptor';
 import type { BookKey } from '../learn/data';
 import QuizView from '../learn/QuizView';
@@ -108,9 +108,13 @@ function LearnHome({ onOpen }: { onOpen: (r: Route) => void }) {
   const styles = useStyles(makeStyles);
   const contentStyle = useScreenContentStyle(true);
   return (
-    <ScrollView contentContainerStyle={[styles.homePad, contentStyle]} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>{t("O‘rganish")}</Text>
-      <Text style={styles.subtitle}>{t("Testlar, qo‘llanmalar va qoidalar — bir joyda")}</Text>
+    <View style={{ flex: 1 }}>
+      {/* Sarlavha qotirilgan — kartalar ostida aylanadi */}
+      <View style={styles.homeHead}>
+        <Text style={styles.title}>{t("O‘rganish")}</Text>
+        <Text style={styles.subtitle}>{t("Testlar, qo‘llanmalar va qoidalar — bir joyda")}</Text>
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.homePad, contentStyle]} showsVerticalScrollIndicator={false}>
       {CARDS.map(({ route, title, desc, Icon, color, bg }) => (
         <TouchableOpacity key={title} style={styles.card} onPress={() => onOpen(route)} activeOpacity={0.8}>
           <View style={[styles.cardIcon, { backgroundColor: bg }]}>
@@ -123,14 +127,16 @@ function LearnHome({ onOpen }: { onOpen: (r: Route) => void }) {
           <ChevronRight size={20} color={T.faint} />
         </TouchableOpacity>
       ))}
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const makeStyles = (T: Palette) =>
   StyleSheet.create({
   container: { flex: 1, backgroundColor: T.bg },
-  homePad: { paddingHorizontal: 16, paddingTop: 12 },
+  homeHead: { width: '100%', maxWidth: CONTENT_MAX_WIDTH, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 12, backgroundColor: T.bg },
+  homePad: { paddingHorizontal: 16 },
   title: { fontSize: 24, fontWeight: '800', color: T.text },
   subtitle: { fontSize: 13, color: T.muted, marginTop: 2, marginBottom: 18 },
   card: {
