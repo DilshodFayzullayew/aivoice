@@ -8,6 +8,12 @@ Versiyalar [Semantic Versioning](https://semver.org/) bo'yicha yuritiladi: `MAJO
 
 Bu versiya foydalanuvchiga do'konda va Profil ekranida ko'rinadi (`app.json` → `expo.version`). Do'kondagi build raqamlarini (Android `versionCode`, iOS `buildNumber`) EAS har production build'da o'zi oshiradi.
 
+## [1.0.3] — 2026-11-02
+
+### Tuzatildi
+- Ovoz bo'limi: AI javobining ovozi tugagandan keyin qayta-qayta chalinib ketmaydi. Ovoz faqat ▶ bosilganda chalinadi, tugasa to'xtaydi, qayta bosilganda boshidan eshitiladi. Ilgari tugagan ovoz `seekTo(0)` bilan boshiga qaytarilardi, ba'zi telefonlarda esa bu ovozni yana boshlab yuborardi.
+- Buzilish bo'limida yozilgan ovozni tinglash ham xuddi shunday tuzatildi.
+
 ## [1.0.2] — 2026-10-20
 
 ### Tuzatildi

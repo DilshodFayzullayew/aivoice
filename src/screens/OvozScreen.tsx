@@ -151,11 +151,12 @@ export default function OvozScreen({ onNavigate }: Props) {
     };
   }, [phase]);
 
-  // Ijro tugaganda tugma holatini qaytarish
+  // Ijro tugaganda to'xtaydi. seekTo(0) qilinmaydi — ba'zi telefonlarda u ovozni qaytadan boshlab yuboradi;
+  // qayta ▶ bosilganda ovoz yangidan yuklanib, boshidan ijro etiladi
   useEffect(() => {
     if (playerStatus.didJustFinish) {
+      player.pause();
       setPlayingId(null);
-      player.seekTo(0).catch(() => {});
     }
   }, [playerStatus.didJustFinish]);
 

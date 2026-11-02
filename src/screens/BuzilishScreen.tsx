@@ -151,7 +151,8 @@ export default function BuzilishScreen({ onNavigate }: Props) {
   }, [meter]);
 
   useEffect(() => {
-    if (playerStatus.didJustFinish) player.seekTo(0).catch(() => {});
+    // Tugaganda to'xtaydi (seekTo(0) ba'zi telefonlarda ovozni qaytadan boshlab yuboradi)
+    if (playerStatus.didJustFinish) player.pause();
   }, [playerStatus.didJustFinish]);
 
   /* ---------------- Ovoz yozish ---------------- */
@@ -406,7 +407,12 @@ export default function BuzilishScreen({ onNavigate }: Props) {
           <MessageSquareText size={16} color={T.brandText} />
           <Text style={styles.cardTitle}>{t("Xabar matni")}</Text>
           {!!audioUri && (
-            <TouchableOpacity style={styles.previewBtn} onPress={() => (previewPlaying ? player.pause() : player.play())}>
+            <TouchableOpacity style={styles.previewBtn} onPress={() => {
+                if (previewPlaying) return player.pause();
+                // Oxirigacha eshitilgan bo'lsa — boshidan
+                if (playerStatus.duration && playerStatus.currentTime >= playerStatus.duration - 0.2) player.seekTo(0).then(() => player.play()).catch(() => {});
+                else player.play();
+              }}>
               {previewPlaying ? <Pause size={14} color={T.brandText} /> : <Play size={14} color={T.brandText} />}
               <Text style={styles.previewText}>{formatSeconds(audioDuration)}</Text>
             </TouchableOpacity>
