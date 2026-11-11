@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
 import { 
   StyleSheet, 
@@ -8,6 +8,7 @@ import {
   ScrollView, 
   Switch,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { 
   MapPin, 
@@ -19,11 +20,15 @@ import {
   ChevronRight, 
   Moon,
   Sun,
+  Wallet,
+  TrendingUp,
+  ArrowRight,
 } from 'lucide-react-native';
 import { useScreenContentStyle } from '../layout';
 import { useAuth } from '../auth';
 import { Palette, useStyles, useTheme } from '../theme';
 import { useI18n } from '../i18n';
+import { SalaryRecord, fetchMySalary, formatSum } from '../api/voiceApi';
 
 // Ilova versiyasi app.json -> expo.version dan olinadi (qo'lda yozilmaydi)
 const APP_VERSION = Constants.expoConfig?.version ?? '';
@@ -38,6 +43,25 @@ export default function ProfilScreen({ onNavigate }: Props) {
   const styles = useStyles(makeStyles);
   const contentStyle = useScreenContentStyle(true);
   const { user, logout } = useAuth();
+  // Oxirgi ikki oy: joriy summa va o'tgan oyga nisbatan o'zgarish uchun
+  const [salary, setSalary] = useState<{ loading: boolean; records: SalaryRecord[]; tab: string | null }>({
+    loading: true,
+    records: [],
+    tab: user?.tab_number ?? null,
+  });
+
+  useEffect(() => {
+    fetchMySalary()
+      .then((res) => setSalary({ loading: false, records: res.records, tab: res.tab_number }))
+      .catch(() => setSalary((s) => ({ ...s, loading: false })));
+  }, []);
+
+  const latest = salary.records[0];
+  const prevMonth = salary.records[1];
+  const change =
+    latest && prevMonth && Number(prevMonth.net_pay) > 0
+      ? ((Number(latest.net_pay) - Number(prevMonth.net_pay)) / Number(prevMonth.net_pay)) * 100
+      : null;
   const fullName = user ? `${user.firstname} ${user.lastname}`.trim() : '';
   const initials = user ? `${user.firstname[0] ?? ''}${user.lastname[0] ?? ''}`.toUpperCase() : '';
 
@@ -86,6 +110,53 @@ export default function ProfilScreen({ onNavigate }: Props) {
           </View>
           <Text style={styles.pkpCode}>PKP-72</Text>
         </View>
+      </View>
+
+      {/* Highlighted Oylik Maosh Card */}
+      <View style={styles.salaryCard}>
+        <View style={styles.salaryTop}>
+          <View style={styles.salaryLabelGroup}>
+            <View style={styles.walletIconBg}>
+              <Wallet size={16} color={T.brandText} />
+            </View>
+            <Text style={styles.salaryLabel}>
+              {latest ? `${t('OYLIK MAOSH')} (${latest.period_title.toUpperCase()})` : t('OYLIK MAOSH')}
+            </Text>
+          </View>
+          {change !== null && (
+            <View style={[styles.bonusBadge, change < 0 && styles.bonusBadgeDown]}>
+              <TrendingUp size={12} color={change < 0 ? T.red : T.green} />
+              <Text style={[styles.bonusText, change < 0 && styles.bonusTextDown]}>
+                {`${change > 0 ? '+' : ''}${change.toFixed(1)}%`}
+              </Text>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.salaryAmountRow}>
+          {salary.loading ? (
+            <ActivityIndicator color={T.brandText} style={{ alignSelf: 'flex-start' }} />
+          ) : latest ? (
+            <>
+              <Text style={styles.salaryNumber} adjustsFontSizeToFit numberOfLines={1}>
+                {formatSum(latest.net_pay)} <Text style={styles.salaryCurrency}>{t("so'm")}</Text>
+              </Text>
+              <Text style={styles.salaryHint}>{t('Qo‘lga tegadigan — hisoblangan {sum} so‘m', { sum: formatSum(latest.accrued_total) })}</Text>
+            </>
+          ) : (
+            <Text style={styles.salaryHint}>
+              {salary.tab ? t('Oylik ma’lumoti hali yuklanmagan.') : t('Tabel raqami biriktirilmagan — administratorga murojaat qiling.')}
+            </Text>
+          )}
+        </View>
+
+        <TouchableOpacity 
+          style={styles.salaryDetailBtn}
+          onPress={() => onNavigate('reys_tafsilotlari')}
+        >
+          <Text style={styles.salaryDetailText}>{t('Oylik hisobi va batafsil tahlil')}</Text>
+          <ArrowRight size={16} color={T.brandText} />
+        </TouchableOpacity>
       </View>
 
       {/* Settings Section */}

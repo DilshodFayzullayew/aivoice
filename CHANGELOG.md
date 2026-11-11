@@ -8,6 +8,12 @@ Versiyalar [Semantic Versioning](https://semver.org/) bo'yicha yuritiladi: `MAJO
 
 Bu versiya foydalanuvchiga do'konda va Profil ekranida ko'rinadi (`app.json` → `expo.version`). Do'kondagi build raqamlarini (Android `versionCode`, iOS `buildNumber`) EAS har production build'da o'zi oshiradi.
 
+## [1.1.0] — 2026-11-11
+
+### Qo'shildi
+- Profil bo'limida "Oylik maosh" kartasi qaytdi. Kartada oxirgi oyning qo'lga tegadigan summasi, hisoblangan summa va o'tgan oyga nisbatan o'zgarish foizi ko'rinadi. "Oylik hisobi va batafsil tahlil" tugmasi oyma-oy batafsil hisob ekranini ochadi. Ma'lumot `GET /api/me/salary/` dan, foydalanuvchining tabel raqami bo'yicha olinadi. Tabel raqami biriktirilmagan bo'lsa, karta shuni aytadi.
+- Karta yozuvlarining ruscha tarjimasi.
+
 ## [1.0.3] — 2026-11-02
 
 ### Tuzatildi

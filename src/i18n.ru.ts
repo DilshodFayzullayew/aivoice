@@ -241,4 +241,11 @@ export const RU: Record<string, string> = {
   'Qaysi lokomotiv bo‘yicha? Tanlang:': 'По какому локомотиву? Выберите:',
   'ТЭМ (teplovoz)': 'ТЭМ (тепловоз)',
   'Ovozni tayyorlab bo‘lmadi': 'Не удалось подготовить озвучку',
+  // ---------- Profil: oylik maosh
+  'OYLIK MAOSH': 'ЗАРПЛАТА',
+  "so'm": 'сум',
+  'Qo‘lga tegadigan — hisoblangan {sum} so‘m': 'К выплате — начислено {sum} сум',
+  'Oylik ma’lumoti hali yuklanmagan.': 'Данные о зарплате ещё не загружены.',
+  'Tabel raqami biriktirilmagan — administratorga murojaat qiling.': 'Табельный номер не привязан — обратитесь к администратору.',
+  'Oylik hisobi va batafsil tahlil': 'Расчёт зарплаты и подробный анализ',
 };
