@@ -56,7 +56,7 @@ export function DocView({ file, title, onBack }: { file: string; title: string; 
   const { paddingBottom } = useScreenContentStyle(true);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
-  const ref = useRef<WebView>(null);
+  const ref = useRef<WebView<{}>>(null);
   // Sahifa ilovadagi rejimda (kunduzgi / tungi) ochiladi
   const uri = `${getApiBaseUrl()}/media/learn/pte/${file}?theme=${mode}`;
 

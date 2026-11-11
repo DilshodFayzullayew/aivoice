@@ -14,6 +14,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+import type { ScrollViewInstance, TextInputInstance } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { AlertCircle, Eye, EyeOff, Lock, LogIn, User } from 'lucide-react-native';
@@ -33,8 +34,8 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const passwordRef = useRef<TextInput>(null);
-  const scrollRef = useRef<ScrollView>(null);
+  const passwordRef = useRef<TextInputInstance>(null);
+  const scrollRef = useRef<ScrollViewInstance>(null);
   // Klaviatura balandligi: edge-to-edge rejimida Android ekranni o'zi qisqartirmaydi,
   // shuning uchun formani klaviatura ustiga o'zimiz ko'taramiz
   const [keyboardHeight, setKeyboardHeight] = useState(0);

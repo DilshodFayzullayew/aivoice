@@ -8,6 +8,15 @@ Versiyalar [Semantic Versioning](https://semver.org/) bo'yicha yuritiladi: `MAJO
 
 Bu versiya foydalanuvchiga do'konda va Profil ekranida ko'rinadi (`app.json` → `expo.version`). Do'kondagi build raqamlarini (Android `versionCode`, iOS `buildNumber`) EAS har production build'da o'zi oshiradi.
 
+## [1.2.0] — 2026-11-11
+
+### O'zgartirildi
+- Expo SDK 57 dan **SDK 58** ga o'tkazildi: `expo` 58.0.23, React Native 0.88.1, React 19.3.0, `react-native-webview` 14.0.1. Qolgan Expo paketlari ham `npx expo install --fix` bilan SDK 58 ga moslandi. Endi ilovani Expo Go'ning yangi versiyasida (SDK 58) ochsa bo'ladi.
+- RN 0.88 da `ScrollView`, `TextInput` va `WebView` ref turlari o'zgargani uchun kirish, Ovoz va O'rganish (hujjat) ekranlaridagi ref turlari yangilandi. Ilovaning ishlashi o'zgarmadi.
+
+### Tekshirildi
+- TypeScript, `npx expo install --check`, Android va iOS bundle, EAS'dagi Android APK build (SDK 58) xatosiz o'tdi.
+
 ## [1.1.0] — 2026-11-11
 
 ### Qo'shildi

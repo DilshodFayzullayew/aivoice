@@ -12,6 +12,7 @@ import {
   AppState,
   useWindowDimensions,
 } from 'react-native';
+import type { ScrollViewInstance } from 'react-native';
 import {
   useAudioPlayer,
   useAudioPlayerStatus,
@@ -100,7 +101,7 @@ export default function OvozScreen({ onNavigate }: Props) {
   // Savol bir nechta lokomotiv seriyasiga mos keldi — mashinist seriyani tanlaydi
   const [seriesAsk, setSeriesAsk] = useState<{ question: string; duration?: number; options: string[] } | null>(null);
   // Yangi javob tarixda ochiladi va ekran o'sha joyga suriladi
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ScrollViewInstance>(null);
   const historyY = useRef(0);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [serverOnline, setServerOnline] = useState<boolean | null>(null);
